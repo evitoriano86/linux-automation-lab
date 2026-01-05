@@ -2,3 +2,13 @@ logs/
 *.log
 .msmtprc
 
+# Vim
+*.swp
+*.swo
+*.swn
+
+# Backups
+backups/
+
+
+

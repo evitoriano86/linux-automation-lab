@@ -1,0 +1,23 @@
+#!/bin/bash
+# ===============================
+# Disk Usage Alert Script
+# ===============================
+
+THRESHOLD=80
+EMAIL="seuemail@gmail.com"
+LOG_DIR="$HOME/labs/linux-automation-lab/logs"
+LOG_FILE="$LOG_DIR/disk.log"
+DATE=$(date '+%Y-%m-%d %H:%M:%S')
+
+mkdir -p "$LOG_DIR"
+
+USAGE=$(df -h / | awk 'NR==2 {gsub("%",""); print $5}')
+
+if [ "$USAGE" -ge "$THRESHOLD" ]; then
+    MESSAGE="ALERTA: Disco em ${USAGE}% no host $(hostname) em $DATE"
+    echo "[$DATE] $MESSAGE" >> "$LOG_FILE"
+    echo "$MESSAGE" | mail -s "ALERTA DISCO - $(hostname)" "$EMAIL"
+else
+    echo "[$DATE] OK: Disco em ${USAGE}%" >> "$LOG_FILE"
+fi
+
